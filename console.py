@@ -30,6 +30,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, line):
         """Quit command to exit the program at end of file"""
+        print("")
         return True
 
     def do_create(self, line):
@@ -42,7 +43,33 @@ class HBNBCommand(cmd.Cmd):
             if not line:
                 raise SyntaxError()
             my_list = line.split(" ")
+            attr_dict = {}
+            for item in my_list[1:]:
+                subitem1 = item.split("=")
+
+                if len(subitem1) == 2:
+                    attr_key = subitem1[0]
+                    attr_val = subitem1[1]
+                    
+                    # string
+                    if attr_val[0] == '"':
+                        attr_dict[attr_key] = eval(attr_val)
+                    else:
+                        # int
+                        try:
+                            int(attr_val)
+                            attr_dict[attr_key] = eval(attr_val)
+                        except Exception:
+                            #float
+                            try:
+                                float(attr_val)
+                                attr_dict[attr_key] = eval(attr_val)
+                            except Exception:
+                                pass
+
             obj = eval("{}()".format(my_list[0]))
+            for key, val in attr_dict.items():
+                setattr(obj, key, val)
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
