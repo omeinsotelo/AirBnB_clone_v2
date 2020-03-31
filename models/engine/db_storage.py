@@ -64,7 +64,7 @@ class DBStorage:
             self.__session.query(obj).delete(synchronize_session='fetch')
 
     def reload(self):
-        """"""
+        """create the session"""
         Base.metadata.create_all(self.__engine)
         session_fact = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_fact)

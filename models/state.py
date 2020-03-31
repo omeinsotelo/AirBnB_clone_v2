@@ -24,6 +24,7 @@ class State(BaseModel, Base):
 
         @property
         def cities(self):
+            """get the cities"""
             cities_dic = []
             for key, value in models.storage.all().items():
                 try:
