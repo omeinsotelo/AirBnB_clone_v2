@@ -50,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
                 if len(subitem1) == 2:
                     attr_key = subitem1[0]
                     attr_val = subitem1[1]
-                    
+
                     # string
                     if attr_val[0] == '"':
                         attr_val = attr_val.replace("_", " ")
@@ -61,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
                             int(attr_val)
                             attr_dict[attr_key] = eval(attr_val)
                         except Exception:
-                            #float
+                            # float
                             try:
                                 float(attr_val)
                                 attr_dict[attr_key] = eval(attr_val)
