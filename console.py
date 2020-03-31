@@ -53,6 +53,7 @@ class HBNBCommand(cmd.Cmd):
                     
                     # string
                     if attr_val[0] == '"':
+                        attr_val = attr_val.replace("_", " ")
                         attr_dict[attr_key] = eval(attr_val)
                     else:
                         # int
