@@ -28,6 +28,7 @@ class BaseModel:
         nullable=False,
         default=datetime.utcnow()
     )
+
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class
         Args:
