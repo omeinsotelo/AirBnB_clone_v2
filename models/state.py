@@ -18,12 +18,16 @@ class State(BaseModel, Base):
         String(128),
         nullable=False
     )
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        cities = relationship("City", backref="state", cascade="all,delete")
-    else:
 
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        cities = relationship(
+            "City", 
+            backref="state", 
+            cascade="all, delete"
+        )
+    else:
         @property
-        def cities(self):
+        def City(self):
             """get the cities"""
             cities_dic = []
             for key, value in models.storage.all().items():
@@ -32,4 +36,4 @@ class State(BaseModel, Base):
                         cities_dic.append(value)
                 except BaseException:
                     pass
-                return cities_dic
+            return cities_dic

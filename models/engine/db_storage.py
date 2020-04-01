@@ -12,7 +12,7 @@ from models.review import Review
 from os import getenv
 
 
-class DBStorage:
+class DBStorage():
     """Class to manage the data in database"""
 
     __engine = None
@@ -21,12 +21,10 @@ class DBStorage:
     def __init__(self):
         """Contructor"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
-                getenv("HBNB_MYSQL_USER"),
-                getenv("HBNB_MYSQL_PWD"),
-                getenv("HBNB_MYSQL_HOST"),
-                getenv("HBNB_MYSQL_DB")),
-                pool_pre_ping=True
-            )
+            getenv("HBNB_MYSQL_USER"),
+            getenv("HBNB_MYSQL_PWD"),
+            getenv("HBNB_MYSQL_HOST"),
+            getenv("HBNB_MYSQL_DB")), pool_pre_ping=True)
 
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
@@ -34,7 +32,7 @@ class DBStorage:
     def all(self, cls=None):
         """Select data from table"""
         records = []
-        if cls is not None:
+        if cls:
             records = self.__session.query(cls).all()
         else:
             listClass = [User, Place, State, City, Amenity, Review]
@@ -60,7 +58,7 @@ class DBStorage:
 
     def delete(self, obj=None):
         """Delete obj from the datav"""
-        if obj is not None:
+        if obj:
             self.__session.query(obj).delete(synchronize_session='fetch')
 
     def reload(self):
@@ -68,4 +66,4 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         session_fact = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_fact)
-        self.__session = Session()
+        self.__session = Session

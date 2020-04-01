@@ -16,9 +16,9 @@ class BaseModel:
     id = Column(
         String(60),
         primary_key=True,
-        nullable=False,
+        nullable=False
     )
-    create_at = Column(
+    created_at = Column(
         DateTime,
         nullable=False,
         default=datetime.utcnow()
