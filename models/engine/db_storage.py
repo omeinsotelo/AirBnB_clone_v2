@@ -7,6 +7,7 @@ from models.state import State
 from models.city import City
 from models.user import User
 from models.place import Place
+from models.review import Review
 from os import getenv
 
 
@@ -33,7 +34,7 @@ class DBStorage:
         if cls is not None:
             records = self.__session.query(cls).all()
         else:
-            listClass = [State, City, User, Place]
+            listClass = [State, City, User, Place, Review]
             for nameClase in listClass:
                 temp = self.__session.query(nameClase)
                 for row in temp:
