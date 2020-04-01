@@ -25,9 +25,9 @@ class DBStorage:
             getenv("HBNB_MYSQL_HOST"),
             getenv("HBNB_MYSQL_DB")), pool_pre_ping=True)
 
-        self.__engine.execute("DROP DATABASE IF EXISTS hbnb_dev_db")        
-        self.__engine.execute("CREATE DATABASE hbnb_dev_db")
-        self.__engine.execute("USE hbnb_dev_db")
+        self.__engine.execute("DROP DATABASE IF EXISTS hbnb_test_db")
+        self.__engine.execute("CREATE DATABASE hbnb_test_db")
+        self.__engine.execute("USE hbnb_test_db")
 
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
