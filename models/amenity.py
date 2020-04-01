@@ -10,6 +10,11 @@ class Amenity(BaseModel, Base):
     Attributes:
         name: input name
     """
-    __tablename__ = "amenities"
-    name = Column(String(128), nullable=False)
-    place_amenities = relationship("Place", secondary="place_amenity")
+
+    __tablename__ = "amenities"  # TODO change simple attr to table amenities
+    name = Column(
+        String(128),
+        nullable=False
+    )
+
+    # place_amenities = relationship("Place", backref="amenity")

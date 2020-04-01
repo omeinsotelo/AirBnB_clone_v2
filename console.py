@@ -30,7 +30,6 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, line):
         """Quit command to exit the program at end of file"""
-        print("")
         return True
 
     def do_create(self, line):
@@ -43,34 +42,19 @@ class HBNBCommand(cmd.Cmd):
             if not line:
                 raise SyntaxError()
             my_list = line.split(" ")
-            attr_dict = {}
-            for item in my_list[1:]:
-                subitem1 = item.split("=")
-
-                if len(subitem1) == 2:
-                    attr_key = subitem1[0]
-                    attr_val = subitem1[1]
-
-                    # string
-                    if attr_val[0] == '"':
-                        attr_val = attr_val.replace("_", " ")
-                        attr_dict[attr_key] = eval(attr_val)
-                    else:
-                        # int
-                        try:
-                            int(attr_val)
-                            attr_dict[attr_key] = eval(attr_val)
-                        except Exception:
-                            # float
-                            try:
-                                float(attr_val)
-                                attr_dict[attr_key] = eval(attr_val)
-                            except Exception:
-                                pass
-
             obj = eval("{}()".format(my_list[0]))
-            for key, val in attr_dict.items():
-                setattr(obj, key, val)
+            for i, parameter in enumerate(my_list):
+                param = parameter.split("=")
+                if i != 0 and len(param) == 2:
+                    key = param[0]
+                    value = param[1]
+                    if value != "":
+                        if self.is_number(value):
+                            value = eval(value)
+                        else:
+                            value = value.replace("_", " ")
+                            value = value[1:len(value) - 1]
+                        setattr(obj, key, value)
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
@@ -146,9 +130,9 @@ class HBNBCommand(cmd.Cmd):
         Exceptions:
             NameError: when there is no object taht has the name
         """
+        objects = storage.all()
         my_list = []
         if not line:
-            objects = storage.all()
             for key in objects:
                 my_list.append(objects[key])
             print(my_list)
@@ -158,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
             if args[0] not in self.all_classes:
                 raise NameError()
 
-            objects = storage.all(eval(args[0]))
+            objects = storage.all(eval(args[0]))  # TODO args is class always
             for key in objects:
                 name = key.split('.')
                 if name[0] == args[0]:
@@ -278,6 +262,17 @@ class HBNBCommand(cmd.Cmd):
         else:
             cmd.Cmd.default(self, line)
 
+    def is_number(self, s):
+        """Checks if a parameter is numeric
+        """
+        try:
+            float(s)
+            return True
+        except ValueError:
+            pass
+        if (s.isnumeric()):
+            return True
+        return False
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

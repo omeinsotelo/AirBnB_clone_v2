@@ -1,71 +1,100 @@
 #!/usr/bin/python3
-"""This is the db storage class for AirBnB"""
+"""
+DBStorage module
+"""
+from os import getenv
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import BaseModel, Base
-from models.state import State
-from models.city import City
-from models.user import User
-from models.place import Place
-from models.review import Review
-from os import getenv
+from models.base_model import BaseModel, Base  # import class model
+from models.state import State  # import class State
+from models.city import City  # import class City
+from models.user import User  # import class User
+from models.place import Place  # import class Place
+from models.review import Review  # import class Review
+from models.amenity import Amenity  # import class Amenity
+import hashlib
 
 
+# TODO Create class DBStorage and empty methods
 class DBStorage:
-    """Class to manage the data in database"""
+    """
+     Class DBStorage
+    """
 
     __engine = None
     __session = None
+    __tables = [
+        "User",
+        "State",
+        "City",
+        "Place",
+        "Review",
+        "Amenity"
+    ]
 
     def __init__(self):
-        """Contructor"""
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
-            getenv("HBNB_MYSQL_USER"),
-            getenv("HBNB_MYSQL_PWD"),
-            getenv("HBNB_MYSQL_HOST"),
-            getenv("HBNB_MYSQL_DB")), pool_pre_ping=True)
+        """ Initilize the db storage
+        """
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+                                      format(getenv('HBNB_MYSQL_USER'),
+                                             getenv('HBNB_MYSQL_PWD'),
+                                             getenv('HBNB_MYSQL_HOST'),
+                                             getenv('HBNB_MYSQL_DB')),
+                                      pool_pre_ping=True)
 
-        self.__engine.execute("DROP DATABASE IF EXISTS hbnb_test_db")
-        self.__engine.execute("CREATE DATABASE hbnb_test_db")
-        self.__engine.execute("USE hbnb_test_db")
-
-        if getenv("HBNB_ENV") == "test":
+        if getenv('HBNB_ENV') == 'test':
+            """ Drop all tables"""
             Base.metadata.drop_all(self.__engine)
 
-    def all(self, cls=None):
-        """Select data from table"""
-        records = []
-        if cls is not None:
-            records = self.__session.query(cls).all()
-        else:
-            listClass = [State, City, User, Place, Review]
-            for nameClase in listClass:
-                temp = self.__session.query(nameClase)
-                for row in temp:
-                    records.append(row)
+        Base.metadata.create_all(self.__engine)
+        Session = sessionmaker(self.__engine)
+        self.__session = Session()
 
-        dict_return = {}
-        for row in records:
-            attr_key = "{}.{}".format(type(row).__name__, row.id)
-            dict_return[attr_key] = row
-        return dict_return
+    def all(self, cls=None):
+        """  Shows all rows in a table
+        """
+        results = {}
+        if cls is not None:
+            # name = eval(cls)
+            # TODO cls always is a class
+            for instance in self.__session.query(cls):
+                key = "{}.{}".format(cls.__name__, instance.id)
+                """if cls == "User":
+                        instance.password = hashlib.md5(
+                        instance.password.encode()).hexdigest().lower()"""
+                results[key] = instance
+            return results
+        else:
+            for table in self.__tables:
+                for instance in self.__session.query(eval(table)):
+                    key = "{}.{}".format(table, instance.id)
+                    """if table == "User":
+                        instance.password = hashlib.md5(
+                        instance.password.encode()).hexdigest().lower()"""
+                    results[key] = instance
+            return results
 
     def new(self, obj):
-        """add to session"""
+        """ Creates a new rigister
+        """
         self.__session.add(obj)
 
     def save(self):
-        """Confirm all the changes"""
+        """ Saves all current changes
+        """
         self.__session.commit()
 
     def delete(self, obj=None):
-        """Delete obj from the datav"""
+        """ Removes an register
+        """
         if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):
-        """create the session"""
+        """ Reloads dabatase session
+        """
         Base.metadata.create_all(self.__engine)
-        session_fact = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(session_fact)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        Session = scoped_session(session_factory)
         self.__session = Session()

@@ -2,10 +2,8 @@
 """This is the state class"""
 from models.base_model import BaseModel, Base
 from models.city import City
-from sqlalchemy import Column, String
-from os import getenv
 from sqlalchemy.orm import relationship
-import models
+from sqlalchemy import Column, String
 
 
 class State(BaseModel, Base):
@@ -13,26 +11,9 @@ class State(BaseModel, Base):
     Attributes:
         name: input name
     """
-    __tablename__ = "states"
+    __tablename__ = 'states'  # TODO change simple attr to table states
     name = Column(
         String(128),
         nullable=False
     )
-    cities = relationship(
-        "City",
-        backref="state",
-        cascade="all, delete"
-    )
-
-    if getenv("HBNB_TYPE_STORAGE") != "db":
-        @property
-        def City(self):
-            """get the cities"""
-            cities_dic = []
-            for value in models.storage.all().values():
-                try:
-                    if value.state_id == self.id:
-                        cities_dic.append(value)
-                except BaseException:
-                    pass
-            return cities_dic
+    cities = relationship('City', backref='state', cascade='all, delete')
