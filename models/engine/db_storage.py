@@ -3,12 +3,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import BaseModel, Base
-from models.user import User
 from models.state import State
 from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
 from os import getenv
 
 
@@ -31,11 +27,12 @@ class DBStorage():
 
     def all(self, cls=None):
         """Select data from table"""
+        print(cls)
         records = []
-        if cls:
+        if cls is not None:
             records = self.__session.query(cls).all()
         else:
-            listClass = [User, Place, State, City, Amenity, Review]
+            listClass = [State, City]
             for nameClase in listClass:
                 temp = self.__session.query(nameClase).all()
                 records.extend(temp)
