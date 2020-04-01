@@ -2,7 +2,7 @@
 """create a unique FileStorage instance for your application"""
 from models.engine.file_storage import FileStorage
 from models.engine.db_storage import DBStorage
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
