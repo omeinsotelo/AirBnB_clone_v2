@@ -18,19 +18,18 @@ class State(BaseModel, Base):
         String(128),
         nullable=False
     )
+    cities = relationship(
+        "City",
+        backref="state",
+        cascade="all, delete"
+    )
 
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        cities = relationship(
-            "City",
-            backref="state",
-            cascade="all, delete"
-        )
-    else:
+    if getenv("HBNB_TYPE_STORAGE") != "db":
         @property
         def City(self):
             """get the cities"""
             cities_dic = []
-            for key, value in models.storage.all().items():
+            for value in models.storage.all().values():
                 try:
                     if value.state_id == self.id:
                         cities_dic.append(value)

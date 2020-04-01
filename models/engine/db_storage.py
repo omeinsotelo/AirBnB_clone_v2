@@ -27,7 +27,6 @@ class DBStorage():
 
     def all(self, cls=None):
         """Select data from table"""
-        print(cls)
         records = []
         if cls is not None:
             records = self.__session.query(cls).all()
