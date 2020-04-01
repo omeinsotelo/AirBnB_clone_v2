@@ -25,44 +25,6 @@ class DBStorage:
             getenv("HBNB_MYSQL_HOST"),
             getenv("HBNB_MYSQL_DB")), pool_pre_ping=True)
 
-        self.__engine.execute("SET foreign_key_checks = 0")
-        try:
-            self.__engine.execute("DROP TABLE state")
-        except:
-            pass
-
-        try:
-            self.__engine.execute("DROP TABLE states")
-        except:
-            pass       
-
-        try:
-            self.__engine.execute("DROP TABLE cities")
-        except:
-            pass
-
-        try:
-            self.__engine.execute("DROP TABLE amenities")
-        except:
-            pass
-
-        try:
-            self.__engine.execute("DROP TABLE place_amenity")
-        except:
-            pass
-
-        try:
-            self.__engine.execute("DROP TABLE reviews")
-        except:
-            pass
-
-        try:
-            self.__engine.execute("DROP TABLE users")
-        except:
-            pass
-
-        self.__engine.execute("SET foreign_key_checks = 1")
-
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
 
