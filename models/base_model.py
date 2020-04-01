@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This is the base model class for AirBnB"""
-from uuid import uuid4
 import models
+from uuid import uuid4
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, DateTime, String
