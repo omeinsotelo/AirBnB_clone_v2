@@ -20,24 +20,22 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    # TODO update all
-    def all(self,  cls=None):
+    def all(self, cls=None):
         """returns a dictionary
         Return:
             returns a dictionary of __object
         """
-        if cls is not None:
-            objs = {}
-            for key, val in self.__objects.items():
-                # FIXME is no necesary this condition cls always is a class
-                # if type(cls) == str:
-                #     if cls == type(val).__name__:
-                #         objs[key] = val
-                #         continue
-                if cls.__name__ == type(val).__name__:
-                    objs[key] = val
-            return objs
-        return self.__objects
+        if cls is None:
+            return self.__objects
+
+        return_values = {}
+        for key, val in self.__objects.items():
+            name_cls = cls.__name__
+            name_obj = type(val).__name__
+            if name_cls == name_obj:
+                return_values[key] = val
+
+        return return_values
 
     def new(self, obj):
         """sets __object to given obj
@@ -68,14 +66,10 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
-    # TODO implementation delete method
     def delete(self, obj=None):
-        """removes an object from __objects if it's inside
+        """delete obj from __objects if it’s inside
         """
         if obj is not None:
-            cpy_objects = self.__objects.copy()
-            instance_key = "{}.{}".format(type(obj).__name__, obj.id)
-            for key in self.__objects.keys():
-                if key == instance_key:
-                    del cpy_objects[instance_key]
-            self.__objects = cpy_objects
+            key_obj = "{}.{}".format(type(obj).__name__, obj.id)
+            if key_obj in self.__objects:
+                del self.__objects[key_obj]
