@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This is the db storage class for AirBnB"""
-from sqlalchemy import create_engine
+from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import BaseModel, Base
 from models.state import State
@@ -8,7 +8,7 @@ from models.city import City
 from os import getenv
 
 
-class DBStorage():
+class DBStorage:
     """Class to manage the data in database"""
 
     __engine = None
@@ -33,20 +33,19 @@ class DBStorage():
         else:
             listClass = [State, City]
             for nameClase in listClass:
-                temp = self.__session.query(nameClase).all()
-                records.extend(temp)
+                temp = self.__session.query(nameClase)
+                for row in temp:
+                    records.append(row)
 
         dict_return = {}
         for row in records:
             attr_key = "{}.{}".format(type(row).__name__, row.id)
-            attr_value = row
-            dict_return[attr_key] = attr_value
+            dict_return[attr_key] = row
         return dict_return
 
     def new(self, obj):
         """add to session"""
-        if obj:
-            self.__session.add(obj)
+        self.__session.add(obj)
 
     def save(self):
         """Confirm all the changes"""
@@ -54,8 +53,8 @@ class DBStorage():
 
     def delete(self, obj=None):
         """Delete obj from the datav"""
-        if obj:
-            self.__session.query(obj).delete(synchronize_session='fetch')
+        if obj is not None:
+            self.__session.delete(obj)
 
     def reload(self):
         """create the session"""
