@@ -5,6 +5,8 @@ import os
 from models.review import Review
 from models.base_model import BaseModel
 import pep8
+import models
+from models.engine.db_storage import DBStorage
 
 
 class TestReview(unittest.TestCase):
@@ -58,6 +60,9 @@ class TestReview(unittest.TestCase):
         self.assertEqual(type(self.rev.text), str)
         self.assertEqual(type(self.rev.place_id), str)
         self.assertEqual(type(self.rev.user_id), str)
+
+    @unittest.skipIf(type(models.storage) == DBStorage,
+                     "Testing DBStorage")
 
     def test_save_Review(self):
         """test if the save works"""

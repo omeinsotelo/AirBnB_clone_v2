@@ -5,6 +5,8 @@ import os
 from models.amenity import Amenity
 from models.base_model import BaseModel
 import pep8
+import models
+from models.engine.db_storage import DBStorage
 
 
 class TestAmenity(unittest.TestCase):
@@ -52,6 +54,9 @@ class TestAmenity(unittest.TestCase):
     def test_attribute_types_Amenity(self):
         """test attribute type for Amenity"""
         self.assertEqual(type(self.amenity.name), str)
+
+    @unittest.skipIf(type(models.storage) == DBStorage,
+                     "Testing DBStorage")
 
     def test_save_Amenity(self):
         """test if the save works"""

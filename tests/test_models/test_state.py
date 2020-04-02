@@ -5,6 +5,8 @@ import os
 from models.state import State
 from models.base_model import BaseModel
 import pep8
+import models
+from models.engine.db_storage import DBStorage
 
 
 class TestState(unittest.TestCase):
@@ -53,6 +55,8 @@ class TestState(unittest.TestCase):
         """test attribute type for State"""
         self.assertEqual(type(self.state.name), str)
 
+    @unittest.skipIf(type(models.storage) == DBStorage,
+                     "Testing DBStorage")
     def test_save_State(self):
         """test if the save works"""
         self.state.save()

@@ -4,6 +4,8 @@ import unittest
 import os
 from models.base_model import BaseModel
 import pep8
+import models
+from models.engine.db_storage import DBStorage
 
 
 class TestBaseModel(unittest.TestCase):
@@ -51,6 +53,9 @@ class TestBaseModel(unittest.TestCase):
     def test_init_BaseModel(self):
         """test if the base is an type BaseModel"""
         self.assertTrue(isinstance(self.base, BaseModel))
+
+    @unittest.skipIf(type(models.storage) == DBStorage,
+                     "Testing DBStorage")
 
     def test_save_BaesModel(self):
         """test if the save works"""

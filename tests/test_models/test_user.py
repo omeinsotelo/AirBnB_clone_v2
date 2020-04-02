@@ -5,6 +5,8 @@ import os
 from models.user import User
 from models.base_model import BaseModel
 import pep8
+import models
+from models.engine.db_storage import DBStorage
 
 
 class TestUser(unittest.TestCase):
@@ -62,6 +64,8 @@ class TestUser(unittest.TestCase):
         self.assertEqual(type(self.user.first_name), str)
         self.assertEqual(type(self.user.first_name), str)
 
+    @unittest.skipIf(type(models.storage) == DBStorage,
+                     "Testing DBStorage")
     def test_save_User(self):
         """test if the save works"""
         self.user.save()
