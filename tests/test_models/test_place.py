@@ -87,7 +87,6 @@ class TestPlace(unittest.TestCase):
 
     @unittest.skipIf(type(models.storage) == DBStorage,
                      "Testing DBStorage")
-
     def test_save_Place(self):
         """test if the save works"""
         self.place.save()

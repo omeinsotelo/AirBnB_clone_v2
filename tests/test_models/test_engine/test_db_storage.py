@@ -16,8 +16,8 @@ from models.review import Review
 from models.engine.db_storage import DBStorage
 
 
-@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
-                "Only want to test Database storage")
+@unittest.skipIf(type(models.storage) != DBStorage,
+                 "Testing DBStorage")
 class TestDBStorage(unittest.TestCase):
     '''this will test the DBStorage'''
 
@@ -67,14 +67,14 @@ class TestDBStorage(unittest.TestCase):
         new_state.save()
         if new_state.id in models.storage.all():
             self.assertTrue(new_state.name, "TestStates")
- 
+
     def test_for_user(self):
         """Check if create the user"""
         new_user = State(email="TestUser")
         new_user.save()
         if new_user.id in models.storage.all():
             self.assertTrue(new_user.email, "TestUser")
- 
+
     def test_for_amenities(self):
         """Check if create the amenities"""
         new_amenities = State(name="TestAmenity")

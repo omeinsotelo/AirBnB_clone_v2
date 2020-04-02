@@ -57,7 +57,6 @@ class TestAmenity(unittest.TestCase):
 
     @unittest.skipIf(type(models.storage) == DBStorage,
                      "Testing DBStorage")
-
     def test_save_Amenity(self):
         """test if the save works"""
         self.amenity.save()

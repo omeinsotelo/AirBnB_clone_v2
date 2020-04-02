@@ -56,7 +56,6 @@ class TestBaseModel(unittest.TestCase):
 
     @unittest.skipIf(type(models.storage) == DBStorage,
                      "Testing DBStorage")
-
     def test_save_BaesModel(self):
         """test if the save works"""
         self.base.save()

@@ -63,7 +63,6 @@ class TestReview(unittest.TestCase):
 
     @unittest.skipIf(type(models.storage) == DBStorage,
                      "Testing DBStorage")
-
     def test_save_Review(self):
         """test if the save works"""
         self.rev.save()
