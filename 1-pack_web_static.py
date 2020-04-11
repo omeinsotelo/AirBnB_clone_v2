@@ -13,9 +13,9 @@ def do_pack():
     local("mkdir -p versions")
     # Create the name of tgz
     now = datetime.now()
-    nameTgz = "versions/web_static_".format(now.strftime("%Y%m%d%H%M%S"))
+    nameTgz = "versions/web_static_{}".format(now.strftime("%Y%m%d%H%M%S"))
     nameTgz += ".tgz"
-    # Create the tgz
+    # Create tgz
     tgzCommand = "tar -cvzf {} web_static".format(nameTgz)
     # Return de path if the file was created
     if local(tgzCommand) == 1:
