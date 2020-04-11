@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# Install nginx web server
+# Install Nginx if it not already installed
 sudo apt-get update
 sudo apt-get -y install nginx
 sudo ufw allow http
-# Create the folders
-# mkdir -p (if file exists)
+# Create folders with flag -p (if file exists)
 mkdir -p /data/web_static/releases/test/
 mkdir -p /data/web_static/shared/
-# create the fake index
+# Create a fake HTML file
 printf %s "<html>
   <head>
   </head>
@@ -18,8 +17,11 @@ printf %s "<html>
 " > /data/web_static/releases/test/index.html
 # create the simbolyc link
 ln -sf /data/web_static/releases/test/ /data/web_static/current
+# Create a symbolic link
+# create the simbolyc link
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 # ownership of the /data/ folder to the ubuntu user AND group
-# chown: change owner, chgrp: change group
+# chown for change owner, chgrp for change group
 sudo chown -R ubuntu /data/
 sudo chgrp -R ubuntu /data/
 # add the configuration default in nginx (alias)

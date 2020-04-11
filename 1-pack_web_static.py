@@ -1,22 +1,23 @@
 #!/usr/bin/python3
-"""Deply static"""
+"""
+    generates a .tgz archive from the contents of the web_static folder
+    of AirBnB Clone repo, using the function do_pack.
+"""
 from fabric.api import local
 from datetime import datetime
 
 
 def do_pack():
     """create a .tgz with all content in web_static folder"""
-    # create the folder if not exists
+    # Flag -p to create the folder if not exists
     local("mkdir -p versions")
-    # create the name of the tgz
+    # Create the name of tgz
     now = datetime.now()
-    nameTgz = "versions/web_static_"
-    nameTgz += "{}{}{}".format(now.year, now.month, now.day)
-    nameTgz += "{}{}{}".format(now.hour, now.minute, now.second)
+    nameTgz = "versions/web_static_".format(now.strftime("%Y%m%d%H%M%S"))
     nameTgz += ".tgz"
-    # create the tgz
+    # Create the tgz
     tgzCommand = "tar -cvzf {} web_static".format(nameTgz)
-    # return de path if the file was created
+    # Return de path if the file was created
     if local(tgzCommand) == 1:
         return None
     return nameTgz
