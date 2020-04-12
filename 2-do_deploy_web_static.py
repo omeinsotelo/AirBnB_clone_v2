@@ -39,7 +39,7 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/{}".format(fullName))
 
         # Create the directory where are going to be uncompress
-        command = "sudo mkdir -p /data/web_static/releases/{}/".format(fileName)
+        command = "mkdir -p /data/web_static/releases/{}/".format(fileName)
         run(command)
 
         # Uncompress the file into /data/web_static/releases/
