@@ -76,6 +76,7 @@ def do_deploy(archive_path):
     # Return true if all run good
     return True
 
+
 def deploy():
     """
     Fabric scriptc that distributes an archive to your web servers,
