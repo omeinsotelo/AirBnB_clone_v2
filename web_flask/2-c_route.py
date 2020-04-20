@@ -15,6 +15,7 @@ def hbnb():
     """print HBNB"""
     return "HBNB"
 
+
 @app.route('/c/<text>', strict_slashes=False)
 def c_someword(text):
     """function that print c <someword>"""
