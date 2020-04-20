@@ -21,5 +21,17 @@ def c_someword(text):
     """Print c <someword>"""
     return "c {}".format(text.replace("_", " "))
 
+
+@app.route('/python/<text>', strict_slashes=False)
+def python_someword(text="is cool"):
+    """Print python <someword>"""
+    return "Python {}".format(text.replace("_", " "))
+
+
+@app.route('/number/<int:n>', strict_slashes=False)
+def n_is_number(n):
+    """Print <n> is a number"""
+    return "{} is a number".format(n)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)

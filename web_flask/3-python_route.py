@@ -12,19 +12,19 @@ def hello_hbnb():
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    """print HBNB"""
+    """Print HBNB"""
     return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
 def c_someword(text):
-    """function that print c <someword>"""
+    """Print c <someword>"""
     return "c {}".format(text.replace("_", " "))
 
 
 @app.route('/python/<text>', strict_slashes=False)
 def python_someword(text="is cool"):
-    """function that print python <someword>"""
+    """Print python <someword>"""
     return "Python {}".format(text.replace("_", " "))
 
 if __name__ == '__main__':
