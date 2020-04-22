@@ -16,11 +16,10 @@ def hbnb():
     return "HBNB"
 
 
-@app.route('/python', strict_slashes=False)
-@app.route('/python/<text>', strict_slashes=False)
-def python_someword(text="is cool"):
-    """Print python <someword>"""
-    return "Python {}".format(text.replace("_", " "))
+@app.route('/c/<text>', strict_slashes=False)
+def c_someword(text):
+    """Print c <someword>"""
+    return "C {}".format(text.replace("_", " "))
 
 
 @app.route('/python', strict_slashes=False)
