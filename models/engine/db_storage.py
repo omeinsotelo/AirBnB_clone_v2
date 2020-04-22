@@ -32,7 +32,10 @@ class DBStorage:
         """Select data from table"""
         records = []
         if cls is not None:
-            records = self.__session.query(cls).all()
+            try:
+                records = self.__session.query(cls).all()
+            except Exception:
+                records = self.__session.query(eval(cls)).all()
         else:
             listClass = [State, City, User, Place, Review]
             for nameClase in listClass:
