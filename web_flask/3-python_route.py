@@ -19,7 +19,7 @@ def hbnb():
 @app.route('/c/<text>', strict_slashes=False)
 def c_someword(text):
     """Print c <someword>"""
-    return "c {}".format(text.replace("_", " "))
+    return "C {}".format(text.replace("_", " "))
 
 
 @app.route('/python/<text>', strict_slashes=False)
