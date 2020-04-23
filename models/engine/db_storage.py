@@ -8,6 +8,7 @@ from models.city import City
 from models.user import User
 from models.place import Place
 from models.review import Review
+from models.amenity import Amenity
 from os import getenv
 
 
@@ -37,7 +38,7 @@ class DBStorage:
             except Exception:
                 records = self.__session.query(eval(cls)).all()
         else:
-            listClass = [State, City, User, Place, Review]
+            listClass = [State, City, User, Place, Review, Amenity]
             for nameClase in listClass:
                 temp = self.__session.query(nameClase)
                 for row in temp:
